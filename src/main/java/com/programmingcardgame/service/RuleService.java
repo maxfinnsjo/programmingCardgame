@@ -4,7 +4,8 @@ import com.programmingcardgame.model.Card;
 import com.programmingcardgame.model.CardEffect;
 import com.programmingcardgame.model.GameGoal;
 import com.programmingcardgame.model.Player;
-import java.util.List; // Lägg till denna import
+import java.util.ArrayList;
+import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -151,17 +152,19 @@ public class RuleService {
     }
 
     public boolean checkWinCondition(Player player) {
-        // Kontrollera om motståndaren har förlorat (hälsa <= 0)
-        for (Card playedCard : player.getPlayedCards()) {
+        // Create a new ArrayList to avoid ConcurrentModificationException
+        List<Card> playedCardsSnapshot = new ArrayList<>(
+            player.getPlayedCards()
+        );
+
+        // Iterate over the snapshot instead of the original collection
+        for (Card playedCard : playedCardsSnapshot) {
             // Räkna komplexitet och andra vinstrelaterade värden
             logger.debug(
                 "Checking win conditions for played card: {}",
                 playedCard.getName()
             );
         }
-
-        // Implementera andra vinstregler här
-        // Till exempel: uppnått viss komplexitet, byggt specifika kombinationer, etc.
 
         return false; // Placeholder - implementera faktiska vinstregler
     }

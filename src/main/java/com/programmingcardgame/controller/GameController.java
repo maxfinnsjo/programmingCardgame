@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/game")
-@CrossOrigin(origins = "*") // För utveckling, ändra detta i produktion
+@CrossOrigin
 public class GameController {
 
     private static final Logger logger = LoggerFactory.getLogger(

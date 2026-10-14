@@ -23,7 +23,14 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.projectlombok:lombok")
-    annotationProcessor("org.projectlombok:lombok")
+    compileOnly ("org.projectlombok:lombok")
+    annotationProcessor ("org.projectlombok:lombok")
+
+    // Add these Jackson dependencies
+    implementation("com.fasterxml.jackson.core:jackson-databind:2.15.2")
+    implementation("com.fasterxml.jackson.core:jackson-core:2.15.2")
+    implementation("com.fasterxml.jackson.core:jackson-annotations:2.15.2")
+
 
     // Test dependencies
     testImplementation("org.springframework.boot:spring-boot-starter-test")

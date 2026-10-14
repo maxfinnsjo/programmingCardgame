@@ -159,16 +159,22 @@ public class GameService {
             }
 
             Player opponent = getOpponent(currentPlayer);
-            ruleService.applyCardEffect(currentPlayer, opponent, card);
-            currentPlayer.playCard(card);
 
-            // Kontrollera vinstvillkor efter att kort spelats
-            if (ruleService.checkWinCondition(currentPlayer)) {
-                logger.info("Player {} has won the game!", playerName);
-                throw new GameWonException(playerName + " has won the game!");
+            // Create a synchronized block to prevent concurrent modifications
+            synchronized (currentPlayer) {
+                ruleService.applyCardEffect(currentPlayer, opponent, card);
+                currentPlayer.playCard(card);
+
+                // Check win condition after modifications are complete
+                if (ruleService.checkWinCondition(currentPlayer)) {
+                    logger.info("Player {} has won the game!", playerName);
+                    throw new GameWonException(
+                        playerName + " has won the game!"
+                    );
+                }
             }
 
-            // Byt till nästa spelare
+            // Switch to next player
             currentPlayerName = opponent.getName();
 
             logger.info(
@@ -178,7 +184,7 @@ public class GameService {
                 currentPlayerName
             );
         } catch (GameWonException e) {
-            throw e; // Låt denna bubbla upp för speciell hantering
+            throw e; // Let this bubble up for special handling
         } catch (Exception e) {
             logger.error("Error while playing card", e);
             throw new RuntimeException(

@@ -1,10 +1,9 @@
 package com.programmingcardgame.model;
 
 public enum CardType {
+    CONTROL_STRUCTURE,
     FUNCTION,
-    METHOD,
     VARIABLE,
-    BUILT_IN_FUNCTION,
     OPERATOR,
-    CONTROL_STRUCTURE
+    BUILT_IN_FUNCTION,
 }
